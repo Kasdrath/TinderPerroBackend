@@ -10,7 +10,7 @@ class Perro extends Model
     use HasFactory;
 
     protected $table = 'perros';
-    protected $primaryKey = 'id_perro';
+    protected $primaryKey = 'id';
     public $timestamps = true;
 
     protected $fillable = [

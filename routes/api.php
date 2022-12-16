@@ -19,6 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('/testing')->group(function () use ($router) {
+Route::prefix('/ApiRoutes')->group(function () use ($router) {
     $router->get('/getPerros', [PerroController::class, 'listarPerros']);
+    $router->post('/crearPerro', [PerroController::class, 'crearPerro']);
+    $router->post('/eliminarPerro', [PerroController::class, 'eliminarPerro']);
+    $router->post('/actualizarPerro', [PerroController::class, 'actualizarPerro']);
+    $router->post('/guardarPreferencia', [PerroController::class, 'guardarPreferPerros']);
+    $router->post('/consultarPerroInteresado', [PerroController::class, 'consultarPerroInteresado']);
 });

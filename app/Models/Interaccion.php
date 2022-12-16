@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Interaccion extends Model
 {
     use HasFactory;
-    protected $table = 'interacciones';
-    protected $primaryKey = 'id_interaccion';
-    public $timestamps = true;
+    protected $table = 'interaccions';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         "preferencia"
