@@ -4,5 +4,5 @@
 
 ## Integrantes
 
-- Martín Araneda Acuña 19.595.977-2
+- Martín Araneda Acuña 19.595.977-3
 - Manuel Yáñez Arias 19.595.096-2
