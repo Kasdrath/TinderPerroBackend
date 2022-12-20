@@ -8,9 +8,17 @@ use App\Models\Interaccion;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PerroRepository
 {
 
+
+    /*Parametros en Postman
+    1.-nombreperro
+    2.-urlfoto
+    3.-descripcion
+    */
     public function crearPerro($request)
     {
         $perros = Perro::create([
@@ -21,29 +29,59 @@ class PerroRepository
         return response()->json(["perros" => $perros], Response::HTTP_OK);
     }
 
+
+    /*Parametros en Postman
+    Ninguno
+    */
     public function listarPerros()
     {
         $perros = Perro::all();
         return response()->json(["perros" => $perros], Response::HTTP_OK);
     }
 
+
+    /*Parametros en Postman
+    1.-idperrointeresado
+    2.-idperrocandidato
+    3.-preferencia
+    */
     public function guardarPreferPerros($request)
     {
         try {
-            $interaccion = Interaccion::all();
-            foreach ($interaccion as $aux) {
-                if ($request->idperrointeresado == $aux->id_perro_interesado && $request->idperrocandidato == $aux->id_perro_candidato) {
+            $interaccionvacio = Interaccion::first();
+            if (is_null($interaccionvacio)) {
+                if ($request->idperrointeresado == $request->idperrocandidato) {
+                    echo "\nLos ID no pueden ser iguales!\n";
                     throw new Exception("PARA LOCO !!!");
-                } else {
-                    if ($request->idperrointeresado == $request->idperrocandidato) {
+                }
+                $aux = new Interaccion();
+                $aux->preferencia = $request->preferencia;
+                $aux->id_perro_interesado = $request->idperrointeresado;
+                $aux->id_perro_candidato = $request->idperrocandidato;
+                $aux->save();
+                return response()->json(["interaccions" => $aux], Response::HTTP_OK);
+            } else {
+                if ($request->idperrointeresado == $request->idperrocandidato) {
+                    echo "\nLos ID no pueden ser iguales!\n";
+                    throw new Exception("PARA LOCO !!!");
+                }
+                $interaccion = Interaccion::all();
+                foreach ($interaccion as $aux) {
+                    if ($request->idperrointeresado == $aux->id_perro_interesado && $request->idperrocandidato == $aux->id_perro_candidato) {
+                        echo "\nYa existe en la tabla!\n";
                         throw new Exception("PARA LOCO !!!");
+                    } else {
+                        if ($request->idperrointeresado == $request->idperrocandidato) {
+                            echo "\nLos ID no pueden ser iguales!\n";
+                            throw new Exception("PARA LOCO !!!");
+                        }
+                        $aux = new Interaccion();
+                        $aux->preferencia = $request->preferencia;
+                        $aux->id_perro_interesado = $request->idperrointeresado;
+                        $aux->id_perro_candidato = $request->idperrocandidato;
+                        $aux->save();
+                        return response()->json(["interaccions" => $aux], Response::HTTP_OK);
                     }
-                    $aux = new Interaccion();
-                    $aux->preferencia = $request->preferencia;
-                    $aux->id_perro_interesado = $request->idperrointeresado;
-                    $aux->id_perro_candidato = $request->idperrocandidato;
-                    $aux->save();
-                    return response()->json(["interaccions" => $aux], Response::HTTP_OK);
                 }
             }
         } catch (Exception $e) {
@@ -51,6 +89,10 @@ class PerroRepository
         }
     }
 
+
+    /*Parametros en Postman
+    1.-idperrointeresado
+    */
     public function consultarPerroInteresado($request)
     {
         try {
@@ -62,6 +104,8 @@ class PerroRepository
                     echo $aux['id_perro_candidato'];
                     echo "\nPreferencias:\n";
                     echo $aux['preferencia'];
+                } else {
+                    throw new Exception("PARA LOCO !!!");
                 }
             }
         } catch (Exception $e) {
@@ -69,6 +113,12 @@ class PerroRepository
         }
     }
 
+    /*Parametros en Postman
+    1.-idperro
+    2.-nombreperro
+    3.-urlfoto
+    4.-descripcion
+    */
     public function actualizarPerro($request)
     {
         try {
@@ -99,6 +149,10 @@ class PerroRepository
         }
     }
 
+
+    /*Parametros en Postman
+    1.-id
+    */
     public function eliminarPerro($request)
     {
         try {

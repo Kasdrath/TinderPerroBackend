@@ -27,9 +27,9 @@ class interaccionRequest extends FormRequest
     public function rules()
     {
         return [
-            "preferencia" => "required|max:2|string",
             "idperrointeresado" => "required",
             "idperrocandidato" => "required",
+            "preferencia" => "required|max:2|string",
         ];
     }
 
